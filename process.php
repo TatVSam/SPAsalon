@@ -53,7 +53,7 @@ $password = sha1($_POST['password']) ?? null;
 /* Убедиться, что код ниже не выполнится после перенаправления .
 exit;*/
 
-
+session_start(); 
 
 if (null !== $login || null !== $password) {
 
@@ -62,7 +62,7 @@ if (null !== $login || null !== $password) {
     if  (($login === $users[$user_num]['login']) && ($password === $users[$user_num]['password'])) {
     
          // Стартуем сессию:
-        session_start(); 
+       
         
    	 // Пишем в сессию информацию о том, что мы авторизовались:
         $_SESSION['auth'] = true; 
@@ -70,7 +70,7 @@ if (null !== $login || null !== $password) {
         // Пишем в сессию логин и id пользователя
         $_SESSION['id'] = $user_num; 
         $_SESSION['login'] = $login; 
-        header("Location: index.php");
+        header("Location: index_2.php");
         exit;
 
     }
@@ -79,15 +79,13 @@ if (null !== $login || null !== $password) {
 } else {
     echo "Введите логин и пароль!";
 }
-session_start();
-//print_r($_SESSION);
 
-if (!$_SESSION) {
-    session_start(); 
+
+
     $_SESSION["auth"] = false;
     $_SESSION["failed"] = true;
     header("Location: login.php"); 
-}
+
 
 if ($_SESSION["failed"]) {
     header("Location: login.php");  

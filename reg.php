@@ -18,13 +18,18 @@
 
     <?php
     session_start();
-    if ($_SESSION["login_is_taken"]) echo "Логин занят!";
 
+    if (isset($_SESSION["login_is_taken"])) {
+        if ($_SESSION["login_is_taken"]) echo "Логин занят!";
+    }
 
-    if ($_SESSION["no_password"]) echo "Введите пароль два раза!";
+    if (isset($_SESSION["no_password"])) {
+        if ($_SESSION["no_password"]) echo "Введите пароль два раза!";
+    }
 
-    if ($_SESSION["not_match"]) echo "Пароли не совпадают!";
-
+    if (isset($_SESSION["not_match"])) {
+        if ($_SESSION["not_match"]) echo "Пароли не совпадают!";
+    }
     
 
     ?>
