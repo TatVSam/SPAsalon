@@ -35,6 +35,16 @@
   
 }
 
+.form-popup1 {
+  display: block;
+  position: absolute;
+        top: 20%;
+        right: 40%;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  
+}
+
 .form-container {
   max-width: 300px;
   padding: 10px;
@@ -123,14 +133,47 @@ $_SESSION['count'] = $count;
 echo $_SESSION['count'] . nl2br("\n");
 
 if ($_SESSION['count'] == 1 ) {
-    $_SESSION["entry_time"] = date("h:i:sa"); 
+    $_SESSION["entry_time"] = time();
+    $_SESSION["entry_time_formatted"] = date("H:i:s"); 
 }
-    echo "Привет, " . $_SESSION['login'] . nl2br("!");
+    echo "Привет, " . $_SESSION['login'] . nl2br("\n");
+   
+    echo "Время входа " . $_SESSION["entry_time_formatted"] . nl2br("\n");
    
    
-    echo $_SESSION["entry_time"] . nl2br("\n");
-    echo "The time is " . date("h:i:sa");
+    $difference = time() - $_SESSION["entry_time"];
+ 
+  $all_seconds_left = 86400 - $difference;
+  $seconds_left = $all_seconds_left % 60;
+  $all_minutes_left = ($all_seconds_left - $seconds_left) / 60; 
+  $minutes_left = $all_minutes_left % 60;
+  $hours_left = ($all_minutes_left - $minutes_left) / 60;
+  echo "Осталось " . $hours_left . " : " . $minutes_left . " : " . $seconds_left;
 ?>
+
+<?php if (($_SESSION['count'] - 1) % 5 == 0) { ?>
+
+<div class="form-popup1" id="myForm">
+<form method = "post" action="process_date.php">
+    <h1>Какого числа вы родились?</h1>
+    <label for="DOB"><b>Дата рождения</b></label>
+    <input name="DOB" type="date" placeholder="Логин" required>
+
+    <input name="submit" class = "btn" type="submit" value="Отправить">
+    <button type="button" class="btn cancel" onclick="closeForm()">Закрыть</button>
+   
+
+
+  </form>
+</div>
+<?php }
+
+if (!empty($_SESSION["DOB"])) echo "Вы родились " . $_SESSION["DOB"];
+
+?>
+
+
+
     <br>
     <a href="logout.php">Выйти</a>
 <?php
@@ -150,7 +193,9 @@ function openForm() {
     document.getElementById("myForm").style.display = "block"; }
 
     function closeForm() {
-    document.getElementById("myForm").style.display = "none";
+    let forms = document.querySelectorAll("#myForm");
+    forms.forEach (elem => elem.style.display = "none");
+    
 }
 </script>
    
