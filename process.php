@@ -70,7 +70,7 @@ if (null !== $login || null !== $password) {
         // Пишем в сессию логин и id пользователя
         $_SESSION['id'] = $user_num; 
         $_SESSION['login'] = $login; 
-        header("Location: index_2.php");
+        header("Location: index.php");
         exit;
 
     }
