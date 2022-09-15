@@ -112,7 +112,7 @@ body {
   if (empty($_SESSION['auth'])) {
 ?>
   <button class="open-button" onclick="openForm()">Войдите</button>
-  <button class="registration-button" onclick="openForm()">Зарегистрируйтесь</button>
+  <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
 <?php
 }
 ?>
@@ -131,6 +131,16 @@ body {
       if (isset($_SESSION["failed"])) echo "Неверный логин или пароль!";
 
 ?>
+</form>
+</div>
+
+<div class="form-popup" id="formReg">
+<form method = "post" action="process_reg.php">
+           <input name="login" type="text" placeholder="Логин">
+           <input name="password" type="password" placeholder="Пароль">
+           <input name="password_repeat" type="password" placeholder="Повторите пароль">
+           <input name="submit" class = "btn" type="submit" value="Зарегистрироваться">
+           <button type="button" class="btn cancel" onclick="close_formReg()">Закрыть</button>
 </form>
 </div>
 
@@ -183,8 +193,18 @@ if (!empty($_SESSION['auth'])) {
 </div>
 <?php }
 
-if (!empty($_SESSION["DOB"])) echo "Вы родились " . $_SESSION["DOB"];
-
+if (!empty($_SESSION["DOB"])) {
+    echo "Вы родились " . $_SESSION["DOB"] . nl2br("\n");
+    $birthday = date('jS F', strtotime($_SESSION["DOB"]));
+    echo "Вы родились " . $birthday . nl2br("\n");
+    $d1=strtotime($birthday);
+    $d2=ceil(($d1-time())/60/60/24);
+    if ($d2 < 0) {
+        $d2 = 365 + $d2;
+    }
+    echo "There are " . $d2 ." days until 4th of July.";
+    
+}
 ?>
 
 
@@ -197,12 +217,21 @@ if (!empty($_SESSION["DOB"])) echo "Вы родились " . $_SESSION["DOB"];
 
 <script>
 function openForm() {
-    document.getElementById("myForm").style.display = "block"; }
+    document.getElementById("myForm").style.display = "block"; 
+}
 
-    function closeForm() {
-    let forms = document.querySelectorAll("#myForm");
-    forms.forEach (elem => elem.style.display = "none");
+function closeForm() {
+let forms = document.querySelectorAll("#myForm");
+forms.forEach (elem => elem.style.display = "none");
     
+}
+
+function open_formReg() {
+    document.querySelector("#formReg").style.display = "block"; 
+}
+
+function close_formReg() {
+    document.querySelector("#formReg").style.display = "none"; 
 }
 </script>
    
