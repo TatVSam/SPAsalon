@@ -15,7 +15,7 @@ foreach ($lines as $line_num => $line) {
 }
 
 
-print_r($users);
+//print_r($users);
 
 /*
 $login = 'Jim';
@@ -87,8 +87,8 @@ if (null !== $login || null !== $password) {
     header("Location: login.php"); 
 
 
-if ($_SESSION["failed"]) {
-    header("Location: login.php");  
+if (!empty($_SESSION["index"])) {
+    header("Location: index.php");  
 }
 
 ?>

@@ -106,6 +106,10 @@ body {
 </head>
 <body>
 
+<?php 
+    include 'functions.php';
+?>
+
 <?php
   session_start();
 
@@ -116,6 +120,8 @@ body {
 <?php
 }
 ?>
+
+
 
 <div class="form-popup" id="myForm">
 <form method = "post" action="process.php">
@@ -128,11 +134,14 @@ body {
     <button type="button" class="btn cancel" onclick="closeForm()">Закрыть</button>
     <?php
       session_start();
+      $_SESSION["index"] = true;
       if (isset($_SESSION["failed"])) echo "Неверный логин или пароль!";
 
 ?>
 </form>
 </div>
+
+
 
 <div class="form-popup" id="formReg">
 <form method = "post" action="process_reg.php">
@@ -196,13 +205,18 @@ if (!empty($_SESSION['auth'])) {
 if (!empty($_SESSION["DOB"])) {
     echo "Вы родились " . $_SESSION["DOB"] . nl2br("\n");
     $birthday = date('jS F', strtotime($_SESSION["DOB"]));
-    echo "Вы родились " . $birthday . nl2br("\n");
+    echo "Вы родились " . getRussianDate($birthday) . nl2br("\n");
     $d1=strtotime($birthday);
     $d2=ceil(($d1-time())/60/60/24);
     if ($d2 < 0) {
         $d2 = 365 + $d2;
     }
-    echo "There are " . $d2 ." days until 4th of July.";
+
+    if ($d2 == 0) {
+        echo "Поздравляем";
+    } else {
+        echo "До вашего дня рождения " . $d2 . " " . dayEnding($d2);
+    }
     
 }
 ?>
