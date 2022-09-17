@@ -9,26 +9,28 @@
 <body>
     Регистрация
 
+    <?php
+        session_start();
+        $_SESSION["index"] = false;
+    ?>
+
     <form method = "post" action="process_reg.php">
-           <input name="login" type="text" placeholder="Логин">
-           <input name="password" type="password" placeholder="Пароль">
-           <input name="password_repeat" type="password" placeholder="Повторите пароль">
+           <input name="login" type="text" placeholder="Логин" required>
+           <input name="password" type="password" placeholder="Пароль" required>
+           <input name="password_repeat" type="password" placeholder="Повторите пароль" required>
            <input name="submit" type="submit" value="Зарегистрироваться">
     </form>
 
     <?php
-    session_start();
+    
 
-    if (isset($_SESSION["login_is_taken"])) {
-        if ($_SESSION["login_is_taken"]) echo "Логин занят!";
+    if (!empty($_SESSION["login_is_taken"])) {
+      echo "Логин занят!";
     }
 
-    if (isset($_SESSION["no_password"])) {
-        if ($_SESSION["no_password"]) echo "Введите пароль два раза!";
-    }
 
-    if (isset($_SESSION["not_match"])) {
-        if ($_SESSION["not_match"]) echo "Пароли не совпадают!";
+    if (!empty($_SESSION["not_match"])) {
+        echo "Пароли не совпадают!";
     }
     
 

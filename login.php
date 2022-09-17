@@ -7,16 +7,28 @@
     <title>Document</title>
 </head>
 <body>
-    
+
+<?php
+session_start();
+$_SESSION["index"] = false;
+if (!empty($_SESSION["reg_success"])) {
+    echo "Поздравляем! Вы зарегистрировались! Теперь введите логин и пароль.";
+}
+?>
 <form method = "post" action="process.php">
-           <input name="login" type="text" placeholder="Логин">
-           <input name="password" type="password" placeholder="Пароль">
+           <input name="login" type="text" placeholder="Логин" required>
+           <input name="password" type="password" placeholder="Пароль" required>
            <input name="submit" type="submit" value="Войти">
 </form>
 <?php
-    session_start();
-    if (isset($_SESSION["failed"])) echo "Неверный логин или пароль!";
+ 
+    if (!empty($_SESSION["isNull"])) {
+        echo "Введите логин и пароль!";
+    } elseif (!empty($_SESSION["failed"])) {
+     echo "Неверный логин или пароль!";
+    }
 
+    $_SESSION["reg_success"] = false;
 ?>
 
 </body>

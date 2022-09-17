@@ -13,8 +13,8 @@ function getRussianDate ($engDate) {
 
 function dayEnding ($days) {
     $tensOnes = $days % 100;
-    if (($tensOnes >= 11) || ($tensOnes <= 14)) return "дней";
-    if (($tensOnes < 11) && ($tensOnes > 14)) {
+    if (($tensOnes >= 11) && ($tensOnes <= 14)) return "дней";
+    if (($tensOnes < 11) || ($tensOnes > 14)) {
         if ($tensOnes % 10 == 1) {
             return "день";
         } elseif (($tensOnes % 10 == 2) || ($tensOnes % 10 == 3) || ($tensOnes % 10 == 4)) {

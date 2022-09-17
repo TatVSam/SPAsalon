@@ -21,37 +21,37 @@ session_start();
 if (in_array($login, $logins)) {
 
     $_SESSION["login_is_taken"] = true;
-    header("Location: reg.php"); 
-    exit;
+   
 } else {
     $_SESSION["login_is_taken"] = false;
-    //header("Location: reg.php");  
+  
 }
 
-if (null == $password || null == $password_repeat) {
-
-    $_SESSION["no_password"] = true;
-    header("Location: reg.php");
-    exit;
-} else {
-    $_SESSION["no_password"] = false;
-    //header("Location: reg.php");  
-}
 
 if ($password !== $password_repeat) {
 
     $_SESSION["not_match"] = true;
-    header("Location: reg.php");
-    exit;
+    
 } else {
     $_SESSION["not_match"] = false;
-    //header("Location: reg.php");  
+     
 }
 
-$new_line = $login . " " . sha1($password) . "\n";
-$fileopen = fopen('data.txt', 'a+');
-fwrite($fileopen, $new_line);
-fclose($fileopen);
-header("Location: login.php"); 
-
+if (!empty($_SESSION["login_is_taken"]) || !empty($_SESSION["not_match"])) {
+    $_SESSION["failed_reg"] = true;
+    if (!empty($_SESSION["index"])) {
+        header("Location: index.php");
+    } else {
+        header("Location: reg.php");  
+    } 
+}
+if (!$_SESSION["login_is_taken"] && !$_SESSION["not_match"]) {
+    $new_line = $login . " " . sha1($password) . "\n";
+    $_SESSION["failed_reg"] = false;
+    $fileopen = fopen('data.txt', 'a+');
+    fwrite($fileopen, $new_line);
+    fclose($fileopen);
+    $_SESSION["reg_success"] = true;
+    header("Location: login.php");
+}  
 ?>

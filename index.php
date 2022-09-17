@@ -133,26 +133,83 @@ body {
     <input name="submit" class = "btn" type="submit" value="Войти">
     <button type="button" class="btn cancel" onclick="closeForm()">Закрыть</button>
     <?php
-      session_start();
+     
       $_SESSION["index"] = true;
-      if (isset($_SESSION["failed"])) echo "Неверный логин или пароль!";
+    
 
 ?>
 </form>
 </div>
 
-
-
-<div class="form-popup" id="formReg">
-<form method = "post" action="process_reg.php">
-           <input name="login" type="text" placeholder="Логин">
-           <input name="password" type="password" placeholder="Пароль">
-           <input name="password_repeat" type="password" placeholder="Повторите пароль">
-           <input name="submit" class = "btn" type="submit" value="Зарегистрироваться">
-           <button type="button" class="btn cancel" onclick="close_formReg()">Закрыть</button>
+<?php
+if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) { 
+?>
+<div class="form-popup1" id="myForm">
+<form method = "post" action="process.php">
+    <h1>Залогиньтесь</h1>
+    <label for="login"><b>Логин</b></label>
+    <input name="login" type="text" placeholder="Логин" required>
+    <label for="password"><b>Пароль</b></label>
+    <input name="password" type="password" placeholder="Пароль" required>
+    <input name="submit" class = "btn" type="submit" value="Войти">
+    <button type="button" class="btn cancel" onclick="closeForm()">Закрыть</button>
+    <?php
+  
+    if (!empty($_SESSION["isNull"])) {
+        echo "Введите логин и пароль!";
+    } else {
+     echo "Неверный логин или пароль!";
+    }
+      ?>
 </form>
 </div>
 
+<?php
+}
+?>
+
+<div class="form-popup" id="formReg">
+<form method = "post" action="process_reg.php">
+           <input name="login" type="text" placeholder="Логин" required>
+           <input name="password" type="password" placeholder="Пароль" required>
+           <input name="password_repeat" type="password" placeholder="Повторите пароль" required>
+           <input name="submit" class = "btn" type="submit" value="Зарегистрироваться">
+           <button type="button" class="btn cancel" onclick="close_formReg()">Закрыть</button>
+           <?php     
+                $_SESSION["index"] = true; 
+
+            ?>
+</form>
+</div>
+
+<?php
+if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) { 
+?>
+<div class="form-popup1" id="formReg">
+<form method = "post" action="process_reg.php">
+           <input name="login" type="text" placeholder="Логин" required>
+           <input name="password" type="password" placeholder="Пароль" required>
+           <input name="password_repeat" type="password" placeholder="Повторите пароль" required>
+           <input name="submit" class = "btn" type="submit" value="Зарегистрироваться">
+           <button type="button" class="btn cancel" onclick="close_formReg()">Закрыть</button>
+           <?php     
+                $_SESSION["index"] = true;
+                if (!empty($_SESSION["login_is_taken"])) {
+                    echo "Логин занят!";
+                  }
+              
+              
+                  if (!empty($_SESSION["not_match"])) {
+                      echo "Пароли не совпадают!";
+                  } 
+
+            ?>
+</form>
+</div>
+
+<?php
+}
+?>
 
 <?php     
 
@@ -160,16 +217,31 @@ body {
 
 if (!empty($_SESSION['auth'])) {
 
+    
+
   $count = $_SESSION['count'] ?? 0;
   $count++;
   $_SESSION['count'] = $count;
 
-  echo $_SESSION['count'] . nl2br("\n");
+  if (!empty($_COOKIE['entry_time'])) {
+    if ($_COOKIE['login'] === $_SESSION["login"]) {
+        $_SESSION["entry_time"] = $_COOKIE["entry_time"];
+        $_SESSION["entry_time_formatted"] = $_COOKIE["entry_time_formatted"];
+        $entry_time_set = true;
+    }
+}
 
+  echo $_SESSION['count'] . nl2br("\n");
+    
+  if (empty ($entry_time_set)) {
   if ($_SESSION['count'] == 1 ) {
     $_SESSION["entry_time"] = time();
     $_SESSION["entry_time_formatted"] = date("H:i:s"); 
+    setcookie(name: 'entry_time', value: $_SESSION["entry_time"]);
+    setcookie(name: 'entry_time_formatted', value: $_SESSION["entry_time_formatted"]);
+    setcookie(name: 'login', value: $_SESSION["login"]);
   }
+}
     echo "Привет, " . $_SESSION['login'] . nl2br("\n");
    
     echo "Время входа " . $_SESSION["entry_time_formatted"] . nl2br("\n");
@@ -185,7 +257,18 @@ if (!empty($_SESSION['auth'])) {
   echo "Осталось " . $hours_left . " : " . $minutes_left . " : " . $seconds_left . nl2br("\n");
 ?>
 
-<?php if ((($_SESSION['count'] - 1) % 5 == 0) && empty($_SESSION["date_is_set"])){ ?>
+
+
+<?php 
+if (!empty($_COOKIE['login'])) {
+    if ($_COOKIE['login'] === $_SESSION["login"]) {
+        $birthday = $_COOKIE["birthday"];
+        $_SESSION["date_is_set"] = true;
+    }
+}
+
+if ((($_SESSION['count'] - 1) % 5 == 0) && empty($_SESSION["date_is_set"])){ ?>
+
 
 <div class="form-popup1" id="myForm">
 <form method = "post" action="process_date.php">
@@ -200,14 +283,25 @@ if (!empty($_SESSION['auth'])) {
 
   </form>
 </div>
-<?php }
+<?php 
+}
 
 if (!empty($_SESSION["DOB"])) {
-    echo "Вы родились " . $_SESSION["DOB"] . nl2br("\n");
     $birthday = date('jS F', strtotime($_SESSION["DOB"]));
+    
+    setcookie(name: 'birthday', value: $birthday);
+
+}
+
+
+
+if (isset($birthday)) {
     echo "Вы родились " . getRussianDate($birthday) . nl2br("\n");
     $d1=strtotime($birthday);
+  
+
     $d2=ceil(($d1-time())/60/60/24);
+   
     if ($d2 < 0) {
         $d2 = 365 + $d2;
     }
@@ -218,6 +312,7 @@ if (!empty($_SESSION["DOB"])) {
         echo "До вашего дня рождения " . $d2 . " " . dayEnding($d2);
     }
     
+
 }
 ?>
 
@@ -226,7 +321,7 @@ if (!empty($_SESSION["DOB"])) {
     <br>
     <a href="logout.php">Выйти</a>
 <?php
-} 
+}
 ?>
 
 <script>
@@ -245,7 +340,8 @@ function open_formReg() {
 }
 
 function close_formReg() {
-    document.querySelector("#formReg").style.display = "none"; 
+    let forms = document.querySelectorAll("#formReg");
+    forms.forEach (elem => elem.style.display = "none");
 }
 </script>
    

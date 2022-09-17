@@ -43,7 +43,6 @@ $login = $_POST['login'] ?? null;
 $password = sha1($_POST['password']) ?? null;
 
 
-
 //echo 'Привет, пользователь ' . $_POST['login'] . '!';
 //echo nl2br ("\n");
 //var_dump ($_POST);
@@ -55,7 +54,7 @@ exit;*/
 
 session_start(); 
 
-if (null !== $login || null !== $password) {
+if (null != $login || null != $_POST['password']) {
 
     foreach ($users as $user_num => $user) {
     // Если пароль из базы совпадает с паролем из формы
@@ -65,7 +64,8 @@ if (null !== $login || null !== $password) {
        
         
    	 // Пишем в сессию информацию о том, что мы авторизовались:
-        $_SESSION['auth'] = true; 
+        $_SESSION['auth'] = true;
+        $_SESSION['failed'] = false;  
         
         // Пишем в сессию логин и id пользователя
         $_SESSION['id'] = $user_num; 
@@ -77,19 +77,33 @@ if (null !== $login || null !== $password) {
 
 } 
 } else {
-    echo "Введите логин и пароль!";
+    $_SESSION["isNull"] = true;
+    if (!empty($_SESSION["index"])) {
+        header("Location: index.php");
+        exit;  
+    } else {
+        header("Location: login.php"); 
+    }
+
+    exit;
 }
 
 
-
+    $_SESSION["isNull"] = false;
     $_SESSION["auth"] = false;
     $_SESSION["failed"] = true;
-    header("Location: login.php"); 
+
+    if (!empty($_SESSION["index"])) {
+        header("Location: index.php");
+        exit;  
+    } else {
+        header("Location: login.php"); 
+    }
 
 
-if (!empty($_SESSION["index"])) {
-    header("Location: index.php");  
-}
+
+  
+
 
 ?>
 
