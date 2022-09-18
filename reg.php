@@ -10,7 +10,13 @@
     Регистрация
 
     <?php
+        include 'functions_db.php';
         session_start();
+        
+        if (getCurrentUser()) {
+            header("Location: index.php"); 
+            exit;
+        }
         $_SESSION["index"] = false;
     ?>
 
@@ -33,6 +39,7 @@
         echo "Пароли не совпадают!";
     }
     
+   
 
     ?>
 

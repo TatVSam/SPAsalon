@@ -1,5 +1,8 @@
 <?php
-$users = [];
+
+include 'functions_db.php';
+
+/*$users = [];
 $logins = [];
 $lines = file('data.txt');
 
@@ -10,15 +13,15 @@ foreach ($lines as $line_num => $line) {
     $users[$line_num] = ['login' => $temp[0], 'password' => trim($temp[1])];
     $logins[$line_num] = $temp[0];
     }
-}
+}*/
 
 $login = $_POST['login'] ?? null;
-$password = $_POST['password'] ?? null;
-$password_repeat = $_POST['password_repeat'] ?? null;
+$password = sha1($_POST['password']) ?? null;
+$password_repeat = sha1($_POST['password_repeat']) ?? null;
 
 session_start();
 
-if (in_array($login, $logins)) {
+if (existsUser($login)) {
 
     $_SESSION["login_is_taken"] = true;
    
@@ -46,7 +49,7 @@ if (!empty($_SESSION["login_is_taken"]) || !empty($_SESSION["not_match"])) {
     } 
 }
 if (!$_SESSION["login_is_taken"] && !$_SESSION["not_match"]) {
-    $new_line = $login . " " . sha1($password) . "\n";
+    $new_line = $login . " " . $password . "\n";
     $_SESSION["failed_reg"] = false;
     $fileopen = fopen('data.txt', 'a+');
     fwrite($fileopen, $new_line);
