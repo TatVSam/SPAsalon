@@ -44,7 +44,7 @@ body {
 }
 
 
-.form-popup {
+.form-popup-invisible {
     display: none;
     position: absolute;
     top: 20%;
@@ -53,7 +53,7 @@ body {
     z-index: 9;  
 }
 
-.form-popup1 {
+.form-popup-visible {
     display: block;
     position: absolute;
     top: 20%;
@@ -115,7 +115,7 @@ body {
 
   if (empty($_SESSION['auth'])) {
 ?>
-  <button class="open-button" onclick="openForm()">Войдите</button>
+  <button class="open-button" onclick="open_formLog()">Войдите</button>
   <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
 <?php
 }
@@ -123,7 +123,7 @@ body {
 
 
 
-<div class="form-popup" id="myForm">
+<div class="form-popup-invisible" id="formLog">
 <form method = "post" action="process.php">
     <h1>Залогиньтесь</h1>
     <label for="login"><b>Логин</b></label>
@@ -131,7 +131,7 @@ body {
     <label for="password"><b>Пароль</b></label>
     <input name="password" type="password" placeholder="Пароль" required>
     <input name="submit" class = "btn" type="submit" value="Войти">
-    <button type="button" class="btn cancel" onclick="closeForm()">Закрыть</button>
+    <button type="button" class="btn cancel" onclick="close_formLog()">Закрыть</button>
     <?php
      
       $_SESSION["index"] = true;
@@ -144,7 +144,7 @@ body {
 <?php
 if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) { 
 ?>
-<div class="form-popup1" id="myForm">
+<div class="form-popup-visible" id="formLog">
 <form method = "post" action="process.php">
     <h1>Залогиньтесь</h1>
     <label for="login"><b>Логин</b></label>
@@ -152,7 +152,7 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) {
     <label for="password"><b>Пароль</b></label>
     <input name="password" type="password" placeholder="Пароль" required>
     <input name="submit" class = "btn" type="submit" value="Войти">
-    <button type="button" class="btn cancel" onclick="closeForm()">Закрыть</button>
+    <button type="button" class="btn cancel" onclick="close_formLog()">Закрыть</button>
     <?php
   
     if (!empty($_SESSION["isNull"])) {
@@ -168,7 +168,7 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) {
 }
 ?>
 
-<div class="form-popup" id="formReg">
+<div class="form-popup-invisible" id="formReg">
 <form method = "post" action="process_reg.php">
            <input name="login" type="text" placeholder="Логин" required>
            <input name="password" type="password" placeholder="Пароль" required>
@@ -185,7 +185,7 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) {
 <?php
 if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) { 
 ?>
-<div class="form-popup1" id="formReg">
+<div class="form-popup-visible" id="formReg">
 <form method = "post" action="process_reg.php">
            <input name="login" type="text" placeholder="Логин" required>
            <input name="password" type="password" placeholder="Пароль" required>
@@ -223,23 +223,29 @@ if (!empty($_SESSION['auth'])) {
   $count++;
   $_SESSION['count'] = $count;
 
-  if (!empty($_COOKIE['entry_time'])) {
-    if ($_COOKIE['login'] === $_SESSION["login"]) {
-        $_SESSION["entry_time"] = $_COOKIE["entry_time"];
-        $_SESSION["entry_time_formatted"] = $_COOKIE["entry_time_formatted"];
+  $name_login = "login_" . $_SESSION["login"];
+  $entry_time = "entry_time_" . $_SESSION["login"];
+  $entry_time_formatted = "entry_time_formatted_" . $_SESSION["login"];
+
+  if (!empty($_COOKIE[$entry_time])) {
+    if ($_COOKIE[$name_login] === $_SESSION["login"]) {
+        $_SESSION["entry_time"] = $_COOKIE[$entry_time];
+        $_SESSION["entry_time_formatted"] = $_COOKIE[$entry_time_formatted];
         $entry_time_set = true;
     }
 }
 
   echo $_SESSION['count'] . nl2br("\n");
+
     
   if (empty ($entry_time_set)) {
   if ($_SESSION['count'] == 1 ) {
     $_SESSION["entry_time"] = time();
     $_SESSION["entry_time_formatted"] = date("H:i:s"); 
-    setcookie(name: 'entry_time', value: $_SESSION["entry_time"]);
-    setcookie(name: 'entry_time_formatted', value: $_SESSION["entry_time_formatted"]);
-    setcookie(name: 'login', value: $_SESSION["login"]);
+    setcookie(name: $entry_time, value: $_SESSION["entry_time"]);
+    setcookie(name: $entry_time_formatted, value: $_SESSION["entry_time_formatted"]);
+    setcookie(name: $name_login, value: $_SESSION["login"]);
+    $entry_time_set = true;
   }
 }
     echo "Привет, " . $_SESSION['login'] . nl2br("\n");
@@ -260,9 +266,12 @@ if (!empty($_SESSION['auth'])) {
 
 
 <?php 
-if (!empty($_COOKIE['login'])) {
-    if ($_COOKIE['login'] === $_SESSION["login"]) {
-        $birthday = $_COOKIE["birthday"];
+
+$birthday_login = "birthday_" . $_SESSION["login"];
+
+if (!empty($_COOKIE[$birthday_login])) {
+    if ($_COOKIE[$name_login] === $_SESSION["login"]) {
+        $birthday = $_COOKIE[$birthday_login];
         $_SESSION["date_is_set"] = true;
     }
 }
@@ -270,14 +279,14 @@ if (!empty($_COOKIE['login'])) {
 if ((($_SESSION['count'] - 1) % 5 == 0) && empty($_SESSION["date_is_set"])){ ?>
 
 
-<div class="form-popup1" id="myForm">
+<div class="form-popup-visible" id="formLog">
 <form method = "post" action="process_date.php">
     <h1>Какого числа вы родились?</h1>
     <label for="DOB"><b>Дата рождения</b></label>
     <input name="DOB" type="date" placeholder="Логин" required>
 
     <input name="submit" class = "btn" type="submit" value="Отправить">
-    <button type="button" class="btn cancel" onclick="closeForm()">Закрыть</button>
+    <button type="button" class="btn cancel" onclick="close_formLog()">Закрыть</button>
    
 
 
@@ -289,7 +298,7 @@ if ((($_SESSION['count'] - 1) % 5 == 0) && empty($_SESSION["date_is_set"])){ ?>
 if (!empty($_SESSION["DOB"])) {
     $birthday = date('jS F', strtotime($_SESSION["DOB"]));
     
-    setcookie(name: 'birthday', value: $birthday);
+    setcookie(name: $birthday_login, value: $birthday);
 
 }
 
@@ -325,12 +334,12 @@ if (isset($birthday)) {
 ?>
 
 <script>
-function openForm() {
-    document.getElementById("myForm").style.display = "block"; 
+function open_formLog() {
+    document.querySelector("#formLog").style.display = "block"; 
 }
 
-function closeForm() {
-let forms = document.querySelectorAll("#myForm");
+function close_formLog() {
+let forms = document.querySelectorAll("#formLog");
 forms.forEach (elem => elem.style.display = "none");
     
 }
