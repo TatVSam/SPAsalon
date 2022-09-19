@@ -5,133 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPA</title>
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+    
     <style>
-body {
-    font-family: Arial, Helvetica, sans-serif;
-}
-* {
-    box-sizing: border-box;
-}
-
-.open-button {
-    background-color: #2196F3;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.8;
-    position: absolute;
-    top: 0%;
-    right: 0%;     
-    width: 280px;
-}
-
-.registration-button {
-    background-color: #2196F3;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.8;
-    position: absolute;
-    top: 0%;
-    right: 300px;     
-    width: 280px;
-}
-
-
-.form-popup-invisible {
-    display: none;
-    position: absolute;
-    top: 20%;
-    right: 40%;
-    border: 3px solid #f1f1f1;
-    z-index: 9;  
-}
-
-.form-popup-visible {
-    display: block;
-    position: absolute;
-    top: 20%;
-    right: 40%;
-    border: 3px solid #f1f1f1;
-    z-index: 9;  
-}
-
-.form-container {
-    max-width: 300px;
-    padding: 10px;
-    background-color: white;  
-}
-
-.form-container input[type=text], .form-container input[type=password] {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    border: none;
-    background: #f1f1f1;
-}
-
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
-    background-color: #ddd;
-    outline: none;
-}
-
-.form-container .btn {
-    background-color: #1976D2;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom:10px;
-    opacity: 0.8;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.form-container .cancel {
-    background-color: #448AFF;
-}
-
-.form-container .btn:hover, .open-button:hover {
-    opacity: 1;
-}
+      
+        <?php echo file_get_contents("style.css"); ?>
     </style>
     
 </head>
+
 <body>
 
-<?php 
-    include 'functions.php';
-?>
+    <?php 
+        include 'functions.php';
+    ?>
 
-<?php
-  session_start();
+    <?php
+        session_start();
 
-  if (empty($_SESSION['auth'])) {
-?>
-  <button class="open-button" onclick="open_formLog()">Войдите</button>
-  <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
-<?php
-}
-?>
+        if (empty($_SESSION['auth'])) {
+    ?>
+   
+        <button class="open-button" onclick="open_formLog()">Войдите</button>
+        <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
+       
+    <?php
+        }
+    ?>
 
 
 
 <div class="form-popup-invisible" id="formLog">
 <form method = "post" action="process.php">
-    <h1>Залогиньтесь</h1>
-    <label for="login"><b>Логин</b></label>
-    <input name="login" type="text" placeholder="Логин" required>
-    <label for="password"><b>Пароль</b></label>
-    <input name="password" type="password" placeholder="Пароль" required>
-    <input name="submit" class = "btn" type="submit" value="Войти">
-    <button type="button" class="btn cancel" onclick="close_formLog()">Закрыть</button>
+    <p>Залогиньтесь</p>
+    <div class="form-group">
+        <label for="login"><b>Логин</b></label>
+        <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
+        <label for="password"><b>Пароль</b></label>
+        <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    
+        <input name="submit" class = "btn btn-primary" type="submit" value="Войти">
+   
+    <button type="button" class="btn cancel btn-primary" onclick="close_formLog()">Закрыть</button>
     <?php
      
       $_SESSION["index"] = true;
@@ -330,28 +253,29 @@ if (isset($birthday)) {
     <br>
     <a href="logout.php">Выйти</a>
 <?php
-}
+    }
 ?>
 
 <script>
-function open_formLog() {
-    document.querySelector("#formLog").style.display = "block"; 
-}
 
-function close_formLog() {
-let forms = document.querySelectorAll("#formLog");
-forms.forEach (elem => elem.style.display = "none");
-    
-}
+    function open_formLog() {
+        document.querySelector("#formLog").style.display = "block"; 
+    }
 
-function open_formReg() {
-    document.querySelector("#formReg").style.display = "block"; 
-}
+    function close_formLog() {
+    let forms = document.querySelectorAll("#formLog");
+    forms.forEach (elem => elem.style.display = "none");    
+    }
 
-function close_formReg() {
-    let forms = document.querySelectorAll("#formReg");
-    forms.forEach (elem => elem.style.display = "none");
-}
+    function open_formReg() {
+        document.querySelector("#formReg").style.display = "block"; 
+    }
+
+    function close_formReg() {
+        let forms = document.querySelectorAll("#formReg");
+        forms.forEach (elem => elem.style.display = "none");
+    }
+
 </script>
    
 
