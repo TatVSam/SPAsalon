@@ -28,6 +28,7 @@ $password = sha1($_POST['password']) ?? null;
 
 
 session_start(); 
+$_SESSION['failed_reg'] = false;
 
 if (null != $login || null != $_POST['password']) {
 

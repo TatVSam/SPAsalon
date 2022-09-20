@@ -5,8 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPA</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   
     <style>
-body {
+      
+      body {
     font-family: Arial, Helvetica, sans-serif;
 }
 * {
@@ -15,6 +18,7 @@ body {
 
 .open-button {
     background-color: #2196F3;
+   
     color: white;
     font-size: 15px;
     font-weight: bold;
@@ -47,6 +51,7 @@ body {
 .form-popup-invisible {
     display: none;
     position: absolute;
+    padding: 20px 20px;
     top: 20%;
     right: 40%;
     border: 3px solid #f1f1f1;
@@ -104,34 +109,43 @@ body {
     </style>
     
 </head>
+
 <body>
 
-<?php 
-    include 'functions.php';
-?>
+    <?php 
+        include 'functions.php';
+    ?>
 
-<?php
-  session_start();
+    <?php
+        session_start();
 
-  if (empty($_SESSION['auth'])) {
-?>
-  <button class="open-button" onclick="open_formLog()">Войдите</button>
-  <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
-<?php
-}
-?>
+        if (empty($_SESSION['auth'])) {
+    ?>
+   
+        <button class="open-button" onclick="open_formLog()">Войдите</button>
+        <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
+       
+    <?php
+        }
+    ?>
 
 
 
 <div class="form-popup-invisible" id="formLog">
 <form method = "post" action="process.php">
-    <h1>Залогиньтесь</h1>
-    <label for="login"><b>Логин</b></label>
-    <input name="login" type="text" placeholder="Логин" required>
-    <label for="password"><b>Пароль</b></label>
-    <input name="password" type="password" placeholder="Пароль" required>
-    <input name="submit" class = "btn" type="submit" value="Войти">
-    <button type="button" class="btn cancel" onclick="close_formLog()">Закрыть</button>
+    <p>Залогиньтесь</p>
+    <div class="form-group">
+        <label for="login"><b>Логин</b></label>
+        <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
+        <label for="password"><b>Пароль</b></label>
+        <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    
+        <input name="submit" class = "btn btn-primary" type="submit" value="Войти">
+   
+    <button type="button" class="btn cancel btn-primary" onclick="close_formLog()">Закрыть</button>
     <?php
      
       $_SESSION["index"] = true;
@@ -330,28 +344,33 @@ if (isset($birthday)) {
     <br>
     <a href="logout.php">Выйти</a>
 <?php
-}
+    }
 ?>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
-function open_formLog() {
-    document.querySelector("#formLog").style.display = "block"; 
-}
 
-function close_formLog() {
-let forms = document.querySelectorAll("#formLog");
-forms.forEach (elem => elem.style.display = "none");
-    
-}
 
-function open_formReg() {
-    document.querySelector("#formReg").style.display = "block"; 
-}
 
-function close_formReg() {
-    let forms = document.querySelectorAll("#formReg");
-    forms.forEach (elem => elem.style.display = "none");
-}
+    function open_formLog() {
+        document.querySelector("#formLog").style.display = "block"; 
+    }
+
+    function close_formLog() {
+    let forms = document.querySelectorAll("#formLog");
+    forms.forEach (elem => elem.style.display = "none");    
+    }
+
+    function open_formReg() {
+        document.querySelector("#formReg").style.display = "block"; 
+    }
+
+    function close_formReg() {
+        let forms = document.querySelectorAll("#formReg");
+        forms.forEach (elem => elem.style.display = "none");
+    }
+
 </script>
    
 

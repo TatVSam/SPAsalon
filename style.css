@@ -6,7 +6,8 @@ body {
 }
 
 .open-button {
-    background-color: #f321bb;
+    background-color: #2196F3;
+   
     color: white;
     font-size: 15px;
     font-weight: bold;
@@ -20,17 +21,33 @@ body {
     width: 280px;
 }
 
+.registration-button {
+    background-color: #2196F3;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: absolute;
+    top: 0%;
+    right: 300px;     
+    width: 280px;
+}
 
-.form-popup {
+
+.form-popup-invisible {
     display: none;
     position: absolute;
+    padding: 20px 20px;
     top: 20%;
     right: 40%;
     border: 3px solid #f1f1f1;
     z-index: 9;  
 }
 
-.form-popup1 {
+.form-popup-visible {
     display: block;
     position: absolute;
     top: 20%;

@@ -20,6 +20,7 @@ $password = sha1($_POST['password']) ?? null;
 $password_repeat = sha1($_POST['password_repeat']) ?? null;
 
 session_start();
+$_SESSION['failed'] = false;
 
 if (existsUser($login)) {
 
