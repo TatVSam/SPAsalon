@@ -9,104 +9,11 @@
    
     <style>
       
-      body {
-    font-family: Arial, Helvetica, sans-serif;
-}
-* {
-    box-sizing: border-box;
-}
-
-.open-button {
-    background-color: #2196F3;
-   
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.8;
-    position: absolute;
-    top: 0%;
-    right: 0%;     
-    width: 280px;
-}
-
-.registration-button {
-    background-color: #2196F3;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.8;
-    position: absolute;
-    top: 0%;
-    right: 300px;     
-    width: 280px;
-}
-
-
-.form-popup-invisible {
-    display: none;
-    position: absolute;
-    padding: 20px 20px;
-    top: 20%;
-    right: 40%;
-    border: 3px solid #f1f1f1;
-    z-index: 9;  
-}
-
-.form-popup-visible {
-    display: block;
-    position: absolute;
-    top: 20%;
-    right: 40%;
-    border: 3px solid #f1f1f1;
-    z-index: 9;  
-}
-
-.form-container {
-    max-width: 300px;
-    padding: 10px;
-    background-color: white;  
-}
-
-.form-container input[type=text], .form-container input[type=password] {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    border: none;
-    background: #f1f1f1;
-}
-
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
-    background-color: #ddd;
-    outline: none;
-}
-
-.form-container .btn {
-    background-color: #1976D2;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom:10px;
-    opacity: 0.8;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.form-container .cancel {
-    background-color: #448AFF;
-}
-
-.form-container .btn:hover, .open-button:hover {
-    opacity: 1;
-}
+      <?php echo file_get_contents("style.css"); ?>
     </style>
+  
+      
+    
     
 </head>
 
@@ -157,6 +64,7 @@
 
 <?php
 if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) { 
+    $_SESSION["failed"] = false;
 ?>
 <div class="form-popup-visible" id="formLog">
 <form method = "post" action="process.php">
