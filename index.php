@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPA</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
    
     <style>
@@ -107,18 +106,6 @@
 .form-container .btn:hover, .open-button:hover {
     opacity: 1;
 }
-=======
-   
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
-    
-    <style>
-      
-        <?php echo file_get_contents("style.css"); ?>
->>>>>>> 143235c4d4ae8ebecc08818f99487117ff10297a
     </style>
     
 </head>
@@ -364,7 +351,6 @@ if (isset($birthday)) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
 
-<<<<<<< HEAD
 
 
     function open_formLog() {
@@ -385,26 +371,6 @@ if (isset($birthday)) {
         forms.forEach (elem => elem.style.display = "none");
     }
 
-=======
-    function open_formLog() {
-        document.querySelector("#formLog").style.display = "block"; 
-    }
-
-    function close_formLog() {
-    let forms = document.querySelectorAll("#formLog");
-    forms.forEach (elem => elem.style.display = "none");    
-    }
-
-    function open_formReg() {
-        document.querySelector("#formReg").style.display = "block"; 
-    }
-
-    function close_formReg() {
-        let forms = document.querySelectorAll("#formReg");
-        forms.forEach (elem => elem.style.display = "none");
-    }
-
->>>>>>> 143235c4d4ae8ebecc08818f99487117ff10297a
 </script>
    
 
