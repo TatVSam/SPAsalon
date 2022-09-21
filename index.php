@@ -52,7 +52,7 @@
     
         <input name="submit" class = "btn btn-primary" type="submit" value="Войти">
    
-    <button type="button" class="btn cancel btn-primary" onclick="close_formLog()">Закрыть</button>
+    <button type="button" class="btn cancel btn-secondary" onclick="close_formLog()">Закрыть</button>
     <?php
      
       $_SESSION["index"] = true;
@@ -62,27 +62,37 @@
 </form>
 </div>
 
+
 <?php
 if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) { 
     $_SESSION["failed"] = false;
 ?>
 <div class="form-popup-visible" id="formLog">
 <form method = "post" action="process.php">
-    <h1>Залогиньтесь</h1>
+    <p>Залогиньтесь</p>
+    <div class="form-group">
     <label for="login"><b>Логин</b></label>
-    <input name="login" type="text" placeholder="Логин" required>
+    <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
     <label for="password"><b>Пароль</b></label>
-    <input name="password" type="password" placeholder="Пароль" required>
-    <input name="submit" class = "btn" type="submit" value="Войти">
-    <button type="button" class="btn cancel" onclick="close_formLog()">Закрыть</button>
+    <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    <input name="submit" class ="btn btn-primary" type="submit" value="Войти">
+    <button type="button" class="btn cancel btn-secondary" onclick="close_formLog()">Закрыть</button>
     <?php
   
     if (!empty($_SESSION["isNull"])) {
-        echo "Введите логин и пароль!";
+    ?>
+    <small class="form-text text-danger">Введите логин и пароль!</small>
+    <?php
     } else {
-     echo "Неверный логин или пароль!";
+    ?>
+    <small class="form-text text-danger">Неверный логин или пароль!</small>
+    
+    <?php
     }
-      ?>
+    ?>
 </form>
 </div>
 
@@ -92,11 +102,17 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) {
 
 <div class="form-popup-invisible" id="formReg">
 <form method = "post" action="process_reg.php">
-           <input name="login" type="text" placeholder="Логин" required>
-           <input name="password" type="password" placeholder="Пароль" required>
-           <input name="password_repeat" type="password" placeholder="Повторите пароль" required>
-           <input name="submit" class = "btn" type="submit" value="Зарегистрироваться">
-           <button type="button" class="btn cancel" onclick="close_formReg()">Закрыть</button>
+    <div class="form-group">
+           <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
+           <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    <div class="form-group">     
+           <input name="password_repeat" class="form-control" type="password" placeholder="Повторите пароль" required>
+    </div>
+           <input name="submit" class ="btn btn-primary" type="submit" value="Зарегистрироваться">
+           <button type="button" class="btn cancel btn-secondary" onclick="close_formReg()">Закрыть</button>
            <?php     
                 $_SESSION["index"] = true; 
 
@@ -104,26 +120,40 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) {
 </form>
 </div>
 
+
 <?php
-if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) { 
+if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
+    $_SESSION["failed_reg"] = false; 
 ?>
 <div class="form-popup-visible" id="formReg">
 <form method = "post" action="process_reg.php">
-           <input name="login" type="text" placeholder="Логин" required>
-           <input name="password" type="password" placeholder="Пароль" required>
-           <input name="password_repeat" type="password" placeholder="Повторите пароль" required>
-           <input name="submit" class = "btn" type="submit" value="Зарегистрироваться">
-           <button type="button" class="btn cancel" onclick="close_formReg()">Закрыть</button>
+    <div class="form-group">
+           <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
+           <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    <div class="form-group">
+           <input name="password_repeat" class="form-control" type="password" placeholder="Повторите пароль" required>
+    </div>
+           <input name="submit" class ="btn btn-primary" type="submit" value="Зарегистрироваться">
+           <button type="button" class="btn cancel btn-secondary" onclick="close_formReg()">Закрыть</button>
            <?php     
                 $_SESSION["index"] = true;
                 if (!empty($_SESSION["login_is_taken"])) {
-                    echo "Логин занят!";
-                  }
+                ?>
+                    <small class="form-text text-danger">Логин занят!</small>
+
+                <?php
+                }
               
               
-                  if (!empty($_SESSION["not_match"])) {
-                      echo "Пароли не совпадают!";
-                  } 
+                if (!empty($_SESSION["not_match"])) {
+                ?>
+                <small class="form-text text-danger">Пароли не совпадают!</small>
+
+                <?php
+                } 
 
             ?>
 </form>
@@ -203,12 +233,14 @@ if ((($_SESSION['count'] - 1) % 5 == 0) && empty($_SESSION["date_is_set"])){ ?>
 
 <div class="form-popup-visible" id="formLog">
 <form method = "post" action="process_date.php">
-    <h1>Какого числа вы родились?</h1>
-    <label for="DOB"><b>Дата рождения</b></label>
-    <input name="DOB" type="date" placeholder="Логин" required>
-
-    <input name="submit" class = "btn" type="submit" value="Отправить">
-    <button type="button" class="btn cancel" onclick="close_formLog()">Закрыть</button>
+    <p>Какого числа вы родились?</p>
+    <div class="form-group">
+        <label for="DOB"><b>Дата рождения</b></label>
+        <input name="DOB" class="form-control" type="date" max="2020-01-01" placeholder="Логин" required>
+    </div>
+    
+    <input name="submit" class ="btn btn-primary" type="submit" value="Отправить">
+    <button type="button" class="btn cancel btn-secondary" onclick="close_formLog()">Закрыть</button>
    
 
 

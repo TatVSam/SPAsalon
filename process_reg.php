@@ -2,18 +2,7 @@
 
 include 'functions_db.php';
 
-/*$users = [];
-$logins = [];
-$lines = file('data.txt');
 
-foreach ($lines as $line_num => $line) {
-    
-    if (trim($line)) {
-    $temp = explode(" ", $line);
-    $users[$line_num] = ['login' => $temp[0], 'password' => trim($temp[1])];
-    $logins[$line_num] = $temp[0];
-    }
-}*/
 
 $login = $_POST['login'] ?? null;
 $password = sha1($_POST['password']) ?? null;
