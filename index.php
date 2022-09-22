@@ -197,7 +197,7 @@ if (!empty($_SESSION['auth'])) {
     }
 }
 
-  echo $_SESSION['count'] . nl2br("\n");
+  //echo $_SESSION['count'] . nl2br("\n");
 
     
   if (empty ($entry_time_set)) {
@@ -210,26 +210,14 @@ if (!empty($_SESSION['auth'])) {
     $entry_time_set = true;
   }
 }
-    echo "Привет, " . $_SESSION['login'] . nl2br("\n");
+    //echo "Привет, " . $_SESSION['login'] . nl2br("\n");
    
-    echo "Время входа " . $_SESSION["entry_time_formatted"] . nl2br("\n");
-   
-   
+    //echo "Время входа " . $_SESSION["entry_time_formatted"] . nl2br("\n");
     $difference = time() - $_SESSION["entry_time"];
  
-  $all_seconds_left = 86400 - $difference;
-  $seconds_left = $all_seconds_left % 60;
-  $all_minutes_left = ($all_seconds_left - $seconds_left) / 60; 
-  $minutes_left = $all_minutes_left % 60;
-  $hours_left = ($all_minutes_left - $minutes_left) / 60;
-  echo "Осталось " . $hours_left . " : " . $minutes_left . " : " . $seconds_left . nl2br("\n");
-?>
 
 
-
-<?php 
-
-$birthday_login = "birthday_" . $_SESSION["login"];
+    $birthday_login = "birthday_" . $_SESSION["login"];
 
 if (!empty($_COOKIE[$birthday_login])) {
     if ($_COOKIE[$name_login] === $_SESSION["login"]) {
@@ -238,6 +226,38 @@ if (!empty($_COOKIE[$birthday_login])) {
     }
 }
 
+if (!empty($_SESSION["DOB"])) {
+    $birthday = date('jS F', strtotime($_SESSION["DOB"]));
+    
+    setcookie(name: $birthday_login, value: $birthday);
+
+}
+
+$all_seconds_left = 86400 - $difference;
+$seconds_left = $all_seconds_left % 60;
+$all_minutes_left = ($all_seconds_left - $seconds_left) / 60; 
+$minutes_left = $all_minutes_left % 60;
+$hours_left = ($all_minutes_left - $minutes_left) / 60;
+//echo "Осталось " . $hours_left . " : " . $minutes_left . " : " . $seconds_left . nl2br("\n");
+
+ ?>  
+
+<div class="nav">
+  
+   
+<p class="welcome">Здравствуйте, <?=$_SESSION['login']?></p>
+            
+</div>
+
+<div>
+<p> До окончания Вашей персональной скидки осталось: <?=$hours_left . " : " . $minutes_left . " : " . $seconds_left?></p>
+</div>
+
+
+
+
+
+<?php
 if ((($_SESSION['count'] - 1) % 5 == 0) && empty($_SESSION["date_is_set"])){ ?>
 
 
@@ -259,12 +279,7 @@ if ((($_SESSION['count'] - 1) % 5 == 0) && empty($_SESSION["date_is_set"])){ ?>
 <?php 
 }
 
-if (!empty($_SESSION["DOB"])) {
-    $birthday = date('jS F', strtotime($_SESSION["DOB"]));
-    
-    setcookie(name: $birthday_login, value: $birthday);
 
-}
 
 
 
