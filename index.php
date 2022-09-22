@@ -25,153 +25,9 @@
 
     <?php
         session_start();
-
-        if (empty($_SESSION['auth'])) {
-    ?>
-      
-
-      <div class="nav">
-  
-   
-    <button class="open-button btn btn-secondary" type="button" onclick="open_formLog()">Войдите</button>
-        
-    <button class="registration-button btn btn-outline-secondary" type="button" onclick="open_formReg()">Зарегистрируйтесь</button>
-              
-        </div>
- 
-     <!--   <button class="open-button" onclick="open_formLog()">Войдите</button>
-        <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
-        -->
-    <?php
-        }
-    ?>
-
-
-
-<div class="form-popup-invisible" id="formLog">
-<form method = "post" action="process.php">
-    <p>Залогиньтесь</p>
-    <div class="form-group">
-        <label for="login"><b>Логин</b></label>
-        <input name="login" class="form-control" type="text" placeholder="Логин" required>
-    </div>
-    <div class="form-group">
-        <label for="password"><b>Пароль</b></label>
-        <input name="password" class="form-control" type="password" placeholder="Пароль" required>
-    </div>
-    
-        <input name="submit" class = "btn btn-primary" type="submit" value="Войти">
-   
-    <button type="button" class="btn cancel btn-secondary" onclick="close_formLog()">Закрыть</button>
-    <?php
-     
-      $_SESSION["index"] = true;
-    
-
-?>
-</form>
-</div>
-
-
-<?php
-if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) { 
-    $_SESSION["failed"] = false;
-?>
-<div class="form-popup-visible" id="formLog">
-<form method = "post" action="process.php">
-    <p>Залогиньтесь</p>
-    <div class="form-group">
-    <label for="login"><b>Логин</b></label>
-    <input name="login" class="form-control" type="text" placeholder="Логин" required>
-    </div>
-    <div class="form-group">
-    <label for="password"><b>Пароль</b></label>
-    <input name="password" class="form-control" type="password" placeholder="Пароль" required>
-    </div>
-    <input name="submit" class ="btn btn-primary" type="submit" value="Войти">
-    <button type="button" class="btn cancel btn-secondary" onclick="close_formLog()">Закрыть</button>
-    <?php
-  
-    if (!empty($_SESSION["isNull"])) {
-    ?>
-    <small class="form-text text-danger">Введите логин и пароль!</small>
-    <?php
-    } else {
-    ?>
-    <small class="form-text text-danger">Неверный логин или пароль!</small>
-    
-    <?php
-    }
-    ?>
-</form>
-</div>
-
-<?php
-}
 ?>
 
-<div class="form-popup-invisible" id="formReg">
-<form method = "post" action="process_reg.php">
-    <div class="form-group">
-           <input name="login" class="form-control" type="text" placeholder="Логин" required>
-    </div>
-    <div class="form-group">
-           <input name="password" class="form-control" type="password" placeholder="Пароль" required>
-    </div>
-    <div class="form-group">     
-           <input name="password_repeat" class="form-control" type="password" placeholder="Повторите пароль" required>
-    </div>
-           <input name="submit" class ="btn btn-primary" type="submit" value="Зарегистрироваться">
-           <button type="button" class="btn cancel btn-secondary" onclick="close_formReg()">Закрыть</button>
-           <?php     
-                $_SESSION["index"] = true; 
 
-            ?>
-</form>
-</div>
-
-
-<?php
-if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
-    $_SESSION["failed_reg"] = false; 
-?>
-<div class="form-popup-visible" id="formReg">
-<form method = "post" action="process_reg.php">
-    <div class="form-group">
-           <input name="login" class="form-control" type="text" placeholder="Логин" required>
-    </div>
-    <div class="form-group">
-           <input name="password" class="form-control" type="password" placeholder="Пароль" required>
-    </div>
-    <div class="form-group">
-           <input name="password_repeat" class="form-control" type="password" placeholder="Повторите пароль" required>
-    </div>
-           <input name="submit" class ="btn btn-primary" type="submit" value="Зарегистрироваться">
-           <button type="button" class="btn cancel btn-secondary" onclick="close_formReg()">Закрыть</button>
-           <?php     
-                $_SESSION["index"] = true;
-                if (!empty($_SESSION["login_is_taken"])) {
-                ?>
-                    <small class="form-text text-danger">Логин занят!</small>
-
-                <?php
-                }
-              
-              
-                if (!empty($_SESSION["not_match"])) {
-                ?>
-                <small class="form-text text-danger">Пароли не совпадают!</small>
-
-                <?php
-                } 
-
-            ?>
-</form>
-</div>
-
-<?php
-}
-?>
 
 <?php     
 
@@ -309,6 +165,259 @@ if (isset($birthday)) {
 <?php
     }
 ?>
+
+<?php
+        if (empty($_SESSION['auth'])) {
+    ?>
+      
+
+      <div class="nav">
+  
+   
+    <button class="open-button btn btn-secondary" type="button" onclick="open_formLog()">Войдите</button>
+        
+    <button class="registration-button btn btn-outline-secondary" type="button" onclick="open_formReg()">Зарегистрируйтесь</button>
+              
+        </div>
+ 
+     <!--   <button class="open-button" onclick="open_formLog()">Войдите</button>
+        <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
+        -->
+    <?php
+        }
+    ?>
+
+
+
+<div class="form-popup-invisible" id="formLog">
+<form method = "post" action="process.php">
+    <p>Залогиньтесь</p>
+    <div class="form-group">
+        <label for="login"><b>Логин</b></label>
+        <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
+        <label for="password"><b>Пароль</b></label>
+        <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    
+        <input name="submit" class = "btn btn-primary" type="submit" value="Войти">
+   
+    <button type="button" class="btn cancel btn-secondary" onclick="close_formLog()">Закрыть</button>
+    <?php
+     
+      $_SESSION["index"] = true;
+    
+
+?>
+</form>
+</div>
+
+
+<?php
+if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed"]))) { 
+    $_SESSION["failed"] = false;
+?>
+<div class="form-popup-visible" id="formLog">
+<form method = "post" action="process.php">
+    <p>Залогиньтесь</p>
+    <div class="form-group">
+    <label for="login"><b>Логин</b></label>
+    <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
+    <label for="password"><b>Пароль</b></label>
+    <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    <input name="submit" class ="btn btn-primary" type="submit" value="Войти">
+    <button type="button" class="btn cancel btn-secondary" onclick="close_formLog()">Закрыть</button>
+    <?php
+  
+    if (!empty($_SESSION["isNull"])) {
+    ?>
+    <small class="form-text text-danger">Введите логин и пароль!</small>
+    <?php
+    } else {
+    ?>
+    <small class="form-text text-danger">Неверный логин или пароль!</small>
+    
+    <?php
+    }
+    ?>
+</form>
+</div>
+
+<?php
+}
+?>
+
+<div class="form-popup-invisible" id="formReg">
+<form method = "post" action="process_reg.php">
+    <div class="form-group">
+           <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
+           <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    <div class="form-group">     
+           <input name="password_repeat" class="form-control" type="password" placeholder="Повторите пароль" required>
+    </div>
+           <input name="submit" class ="btn btn-primary" type="submit" value="Зарегистрироваться">
+           <button type="button" class="btn cancel btn-secondary" onclick="close_formReg()">Закрыть</button>
+           <?php     
+                $_SESSION["index"] = true; 
+
+            ?>
+</form>
+</div>
+
+<?php
+if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
+    $_SESSION["failed_reg"] = false; 
+?>
+<div class="form-popup-visible" id="formReg">
+<form method = "post" action="process_reg.php">
+    <div class="form-group">
+           <input name="login" class="form-control" type="text" placeholder="Логин" required>
+    </div>
+    <div class="form-group">
+           <input name="password" class="form-control" type="password" placeholder="Пароль" required>
+    </div>
+    <div class="form-group">
+           <input name="password_repeat" class="form-control" type="password" placeholder="Повторите пароль" required>
+    </div>
+           <input name="submit" class ="btn btn-primary" type="submit" value="Зарегистрироваться">
+           <button type="button" class="btn cancel btn-secondary" onclick="close_formReg()">Закрыть</button>
+           <?php     
+                $_SESSION["index"] = true;
+                if (!empty($_SESSION["login_is_taken"])) {
+                ?>
+                    <small class="form-text text-danger">Логин занят!</small>
+
+                <?php
+                }
+              
+              
+                if (!empty($_SESSION["not_match"])) {
+                ?>
+                <small class="form-text text-danger">Пароли не совпадают!</small>
+
+                <?php
+                } 
+
+            ?>
+</form>
+</div>
+
+<?php
+}
+?>
+
+
+<div class="figure-container">
+        <figure>
+            <div class="img-container">
+            <img src="images/bali_massage.jpg" alt="Trulli">
+        </div>
+            <figcaption>Традиционный балийский массаж с аромамаслами</figcaption>
+            <figcaption><span class="new-price">6106 &#8381;</span></figcaption>
+            <figcaption><span class="old-price">7100 &#8381;</span><span class="discount">-14%</span></figcaption>
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/chocolate.jpg" alt="Trulli">
+          </div>           
+            <figcaption>Шоколадное обертывание</figcaption>
+            <figcaption>5500 &#8381;</figcaption>
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/grapes.jpg" alt="Trulli">
+        </div>
+            <figcaption>Виноградное обертывание</figcaption>
+            <figcaption>5500 &#8381;</figcaption>
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/honey.jpg" alt="Trulli">
+        </div>
+            <figcaption>Медовое обертывание</figcaption>
+            <figcaption>5500 &#8381;</figcaption>
+          </figure>
+    
+    
+          <figure>
+            <div class="img-container">
+            
+                <img src="images/hot_stones.jpg" alt="Trulli">
+            </div>
+       
+            <figcaption>Массаж горячими камнями</figcaption>
+            <figcaption>8000 &#8381;</figcaption>
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/laminaria.jpg" alt="Trulli">
+        </div>
+            <figcaption>Обертывание ламинарией</figcaption>
+            <figcaption>7800 &#8381;</figcaption>
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/peeling.jpg" alt="Trulli">
+        </div>
+            <figcaption>Натуральный экспресс пилинг на выбор</figcaption>
+            <figcaption>7000 &#8381;</figcaption>
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/turkey_massage.jpg" alt="Trulli">
+        </div>
+            <figcaption>Турецкий мыльный массаж</figcaption>
+            <figcaption>7500 &#8381;</figcaption>
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/coco.jpg" alt="Trulli">
+        </div>
+            <figcaption>Кокосовый скраб </figcaption>
+            <figcaption>2000 &#8381;</figcaption>
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/mango.jpg" alt="Trulli">
+        </div>
+            <figcaption>Манговый скраб</figcaption>
+            <figcaption>2000 &#8381;</figcaption>
+          </figure>
+       
+          <figure>
+            <div class="img-container">
+            <img src="images/gommage.jpg" alt="Trulli">
+        </div>
+            <figcaption>Аюрведический гоммаж</figcaption>
+            <figcaption><span class="new-price">2700 &#8381;</span></figcaption>
+            <figcaption><span class="old-price">3000 &#8381;</span><span class="discount">-10%</span></figcaption>
+            
+          </figure>
+
+          <figure>
+            <div class="img-container">
+            <img src="images/face.jpg" alt="Trulli">
+        </div>
+            <figcaption>Массаж лица</figcaption>
+            <figcaption>2500 &#8381;</figcaption>
+          </figure>
+    </div>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
