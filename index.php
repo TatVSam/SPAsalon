@@ -28,10 +28,20 @@
 
         if (empty($_SESSION['auth'])) {
     ?>
+      
+
+      <div class="nav">
+  
    
-        <button class="open-button" onclick="open_formLog()">Войдите</button>
+    <button class="open-button btn btn-secondary" type="button" onclick="open_formLog()">Войдите</button>
+        
+    <button class="registration-button btn btn-outline-secondary" type="button" onclick="open_formReg()">Зарегистрируйтесь</button>
+              
+        </div>
+ 
+     <!--   <button class="open-button" onclick="open_formLog()">Войдите</button>
         <button class="registration-button" onclick="open_formReg()">Зарегистрируйтесь</button>
-       
+        -->
     <?php
         }
     ?>
