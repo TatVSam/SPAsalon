@@ -246,7 +246,8 @@ $hours_left = ($all_minutes_left - $minutes_left) / 60;
   
    
 <p class="welcome">Здравствуйте, <?=$_SESSION['login']?></p>
-            
+<a href="logout.php"><button class="open-button btn btn-secondary" type="button">Выйти</button></a>
+         
 </div>
 
 <div>
@@ -305,9 +306,6 @@ if (isset($birthday)) {
 ?>
 
 
-
-    <br>
-    <a href="logout.php">Выйти</a>
 <?php
     }
 ?>
