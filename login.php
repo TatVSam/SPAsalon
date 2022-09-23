@@ -25,13 +25,18 @@ if (getCurrentUser()) {
     exit;
 }
 
-$_SESSION["index"] = false;
-if (!empty($_SESSION["reg_success"])) {
-    echo "Поздравляем! Вы зарегистрировались! Теперь введите логин и пароль.";
-}
+
+
 ?>
 <div class="form-popup-visible">
 <form method = "post" action="process.php">
+<?php
+if (!empty($_SESSION["reg_success"])) {
+?>
+ <p>Поздравляем! Вы зарегистрировались! Теперь введите логин и пароль.</p>
+<?php
+}
+?>
 <div class="form-group">
            <input name="login" class="form-control" type="text" placeholder="Логин" required>
 </div>
@@ -39,6 +44,7 @@ if (!empty($_SESSION["reg_success"])) {
            <input name="password" class="form-control" type="password" placeholder="Пароль" required>
 </div>
            <input name="submit" class ="btn btn-primary" type="submit" value="Войти">
+           <a href="index.php"><button class="btn btn-secondary" type="button">На главную</button></a>
 
 <?php
  
@@ -53,7 +59,7 @@ if (!empty($_SESSION["reg_success"])) {
     
 <?php
     }
-
+    $_SESSION["index"] = false;
     $_SESSION["reg_success"] = false;
 ?>
 </form>

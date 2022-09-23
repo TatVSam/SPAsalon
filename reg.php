@@ -56,6 +56,12 @@
         <small class="form-text text-danger">Пароли не совпадают!</small>
     <?php
     }
+
+    if (!empty($_SESSION["password_too_short"])) {
+        ?>
+            <small class="form-text text-danger">Пароль должен быть не менее 5 символов!</small>
+        <?php
+    }
     
    
 

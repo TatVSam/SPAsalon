@@ -5,6 +5,24 @@ body {
     box-sizing: border-box;
 }
 
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25vh;
+    background: url('images/salon.jpg') center no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    color: white;
+    /*color: #4b1f01;*/
+   -webkit-text-stroke: 1px #4b1f01;
+   font-weight: bold;
+    font-size: 2rem;
+    font-family: 'Times New Roman', Times, serif;
+}
+
 .open-button {
     /*background-color: #2196F3;
    
@@ -16,8 +34,9 @@ body {
     cursor: pointer;
     opacity: 0.8;*/
     position: absolute;
+    width: 100px;
     top: 1%;
-    right: 1%;     
+    right: 5px;      
     
 }
 
@@ -32,7 +51,7 @@ body {
     opacity: 0.8;*/
     position: absolute;
     top: 1%;
-    right: 10%;     
+    right: 120px;     
     
 }
 
@@ -43,8 +62,8 @@ body {
 
 .welcome {
     position: absolute;
-    top: 1%;
-    right: 7%;
+    top: 2%;
+    right: 120px;
     color:#ddd;
 }
 
@@ -54,8 +73,9 @@ body {
     padding: 20px 20px;
     top: 20%;
     right: 40%;
-    border: 3px solid #f1f1f1;
-    background-color: #F5F5DC;
+    border: 5px solid #4b1f01;
+    border-radius: 20px;
+    background-color: white;
     z-index: 9;  
 }
 
@@ -65,8 +85,9 @@ body {
     padding: 20px 20px;
     top: 20%;
     right: 40%;
-    border: 3px solid #f1f1f1;
-    background-color: #F5F5DC;
+    border: 5px solid #4b1f01;
+    border-radius: 20px;
+    background-color: white;
     z-index: 9;   
 }
 

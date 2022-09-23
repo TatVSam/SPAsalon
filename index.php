@@ -60,9 +60,9 @@ if (!empty($_SESSION['auth'])) {
   if ($_SESSION['count'] == 1 ) {
     $_SESSION["entry_time"] = time();
     $_SESSION["entry_time_formatted"] = date("H:i:s"); 
-    setcookie(name: $entry_time, value: $_SESSION["entry_time"]);
-    setcookie(name: $entry_time_formatted, value: $_SESSION["entry_time_formatted"]);
-    setcookie(name: $name_login, value: $_SESSION["login"]);
+    setcookie(name: $entry_time, value: $_SESSION["entry_time"], expires_or_options: time() + 3600);
+    setcookie(name: $entry_time_formatted, value: $_SESSION["entry_time_formatted"], expires_or_options: time() + 3600);
+    setcookie(name: $name_login, value: $_SESSION["login"], expires_or_options: time() + 3600);
     $entry_time_set = true;
   }
 }
@@ -85,17 +85,22 @@ if (!empty($_COOKIE[$birthday_login])) {
 if (!empty($_SESSION["DOB"])) {
     $birthday = date('jS F', strtotime($_SESSION["DOB"]));
     
-    setcookie(name: $birthday_login, value: $birthday);
+    setcookie(name: $birthday_login, value: $birthday, expires_or_options: time() + 3600);
 
 }
 
 $all_seconds_left = 86400 - $difference;
+
+if ($all_seconds_left > 0) {
+    $discount_active = true;
 $seconds_left = $all_seconds_left % 60;
 $all_minutes_left = ($all_seconds_left - $seconds_left) / 60; 
 $minutes_left = $all_minutes_left % 60;
 $hours_left = ($all_minutes_left - $minutes_left) / 60;
 //echo "Осталось " . $hours_left . " : " . $minutes_left . " : " . $seconds_left . nl2br("\n");
-
+} else {
+    $discount_active = false;
+}
  ?>  
 
 <div class="nav">
@@ -106,9 +111,7 @@ $hours_left = ($all_minutes_left - $minutes_left) / 60;
          
 </div>
 
-<div>
-<p> До окончания Вашей персональной скидки осталось: <?=$hours_left . " : " . $minutes_left . " : " . $seconds_left?></p>
-</div>
+
 
 
 
@@ -141,7 +144,7 @@ if ((($_SESSION['count'] - 1) % 5 == 0) && empty($_SESSION["date_is_set"])){ ?>
 
 
 if (isset($birthday)) {
-    echo "Вы родились " . getRussianDate($birthday) . nl2br("\n");
+  
     $d1=strtotime($birthday);
   
 
@@ -152,11 +155,8 @@ if (isset($birthday)) {
     }
 
     if ($d2 == 0) {
-        echo "Поздравляем";
-    } else {
-        echo "До вашего дня рождения " . $d2 . " " . dayEnding($d2);
-    }
-    
+        $user_birthday = true;
+    } 
 
 }
 ?>
@@ -305,7 +305,16 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
                 <?php
                 } 
 
-            ?>
+                if (!empty($_SESSION["password_too_short"])) {
+                    ?>
+                        <small class="form-text text-danger">Пароль должен быть не менее 5 символов!</small>
+                    <?php
+                }
+                
+               
+            
+                ?>
+            
 </form>
 </div>
 
@@ -313,6 +322,42 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
 }
 ?>
 
+<header>
+    <?php
+        if (!empty($_SESSION["auth"])) {
+    ?>
+        <h1>
+         Время входа: <?=$_SESSION["entry_time_formatted"]?>
+        <br>
+        <?php
+        if($discount_active) {
+            ?>
+        
+          Персональная скидка в 7% истекает через: <?=$hours_left?>:<?=$minutes_left?>:<?=$seconds_left?>        
+        
+        <?php
+        }
+        if (isset($d2)) {
+            if ($d2 == 0) {
+        ?>
+        <br>
+        Поздравляем с Днем Рождения! Дарим скидку в 5% на все услуги!
+
+        <?php
+
+       
+            } else {
+        ?>
+        <br>
+         Вы родились <?=getRussianDate($birthday)?>. До Вашего дня рождения <?=$d2 . " " . dayEnding($d2)?> 
+        <?php
+
+            }
+        }
+         }
+    ?>
+    </h1>
+</header>
 
 <div class="figure-container">
         <figure>
@@ -320,8 +365,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/bali_massage.jpg" alt="Trulli">
         </div>
             <figcaption>Традиционный балийский массаж с аромамаслами</figcaption>
-            <figcaption><span class="new-price">6106 &#8381;</span></figcaption>
-            <figcaption><span class="old-price">7100 &#8381;</span><span class="discount">-14%</span></figcaption>
+            <?php
+                $discount = getDiscount (14);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (7100, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">7100 &#8381;</span><span class="discount">-<?=getDiscount(14)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">7100 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
 
           <figure>
@@ -329,7 +385,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/chocolate.jpg" alt="Trulli">
           </div>           
             <figcaption>Шоколадное обертывание</figcaption>
-            <figcaption>5500 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (5500, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">5500 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">5500 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
 
           <figure>
@@ -337,7 +405,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/grapes.jpg" alt="Trulli">
         </div>
             <figcaption>Виноградное обертывание</figcaption>
-            <figcaption>5500 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (5500, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">5500 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">5500 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
 
           <figure>
@@ -345,7 +425,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/honey.jpg" alt="Trulli">
         </div>
             <figcaption>Медовое обертывание</figcaption>
-            <figcaption>5500 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (5500, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">5500 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">5500 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
     
     
@@ -356,7 +448,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             </div>
        
             <figcaption>Массаж горячими камнями</figcaption>
-            <figcaption>8000 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (8000, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">8000 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">8000 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
 
           <figure>
@@ -364,7 +468,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/laminaria.jpg" alt="Trulli">
         </div>
             <figcaption>Обертывание ламинарией</figcaption>
-            <figcaption>7800 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (7800, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">7800 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">7800 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
 
           <figure>
@@ -372,7 +488,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/peeling.jpg" alt="Trulli">
         </div>
             <figcaption>Натуральный экспресс пилинг на выбор</figcaption>
-            <figcaption>7000 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (7000, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">7000 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">7000 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
 
           <figure>
@@ -380,7 +508,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/turkey_massage.jpg" alt="Trulli">
         </div>
             <figcaption>Турецкий мыльный массаж</figcaption>
-            <figcaption>7500 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (7500, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">7500 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">7500 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
 
           <figure>
@@ -388,7 +528,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/coco.jpg" alt="Trulli">
         </div>
             <figcaption>Кокосовый скраб </figcaption>
-            <figcaption>2000 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (2000, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">2000 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">2000 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
 
           <figure>
@@ -396,7 +548,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/mango.jpg" alt="Trulli">
         </div>
             <figcaption>Манговый скраб</figcaption>
-            <figcaption>2000 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (2000, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">2000 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">2000 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
        
           <figure>
@@ -404,8 +568,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/gommage.jpg" alt="Trulli">
         </div>
             <figcaption>Аюрведический гоммаж</figcaption>
-            <figcaption><span class="new-price">2700 &#8381;</span></figcaption>
-            <figcaption><span class="old-price">3000 &#8381;</span><span class="discount">-10%</span></figcaption>
+            <?php
+                $discount = getDiscount (10);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (3000, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">3000 &#8381;</span><span class="discount">-<?=getDiscount(10)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">3000 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
             
           </figure>
 
@@ -414,7 +589,19 @@ if (!empty($_SESSION["index"]) && (!empty($_SESSION["failed_reg"]))) {
             <img src="images/face.jpg" alt="Trulli">
         </div>
             <figcaption>Массаж лица</figcaption>
-            <figcaption>2500 &#8381;</figcaption>
+            <?php
+                $discount = getDiscount (0);
+                if (hasDiscount($discount)) {
+            ?>
+            <figcaption><span class="new-price"><?=getNewPrice (2500, $discount)?> &#8381;</span></figcaption>
+            <figcaption><span class="old-price">2500 &#8381;</span><span class="discount">-<?=getDiscount(0)?>%</span></figcaption>
+            <?php
+                } else {
+            ?>
+            <figcaption><span class="new-price">2500 &#8381;</span></figcaption>
+            <?php
+                }
+            ?>
           </figure>
     </div>
 

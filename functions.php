@@ -24,4 +24,33 @@ function dayEnding ($days) {
     }
 }
 
+function hasDiscount ($discount) {
+    if ($discount > 0) 
+    return true;
+    else 
+    return false;
+    
+}
+
+function getDiscount ($oldDiscount) {
+    global $discount_active;
+    global $d2;
+    $discountSum = $oldDiscount;
+    if (isset($d2)) {
+        if ($d2 == 0) {
+            $discountSum += 5;
+        }
+    }
+
+    if ($discount_active) {
+        $discountSum += 7;
+    }
+
+    return $discountSum;
+}
+
+function getNewPrice ($oldprice, $discount) {
+    return $oldprice * (1 - $discount * 0.01);
+}
+
 ?>
