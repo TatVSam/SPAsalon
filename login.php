@@ -10,6 +10,9 @@
    <style>
      
      <?php echo file_get_contents("style.css"); ?>
+     .form-popup-visible {
+        min-width: 400px;
+     }
    </style>
 </head>
 <body>
@@ -33,7 +36,9 @@ if (getCurrentUser()) {
 <?php
 if (!empty($_SESSION["reg_success"])) {
 ?>
- <p>Поздравляем! Вы зарегистрировались! Теперь введите логин и пароль.</p>
+
+ <p>Поздравляем! Вы зарегистрировались!<br>Теперь введите логин и пароль.</p>
+
 <?php
 }
 ?>
@@ -59,6 +64,7 @@ if (!empty($_SESSION["reg_success"])) {
     
 <?php
     }
+    $_SESSION["from_login"] = true;
     $_SESSION["index"] = false;
     $_SESSION["reg_success"] = false;
 ?>

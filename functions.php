@@ -34,10 +34,10 @@ function hasDiscount ($discount) {
 
 function getDiscount ($oldDiscount) {
     global $discount_active;
-    global $d2;
+    global $days_until_birthday;
     $discountSum = $oldDiscount;
-    if (isset($d2)) {
-        if ($d2 == 0) {
+    if (isset($days_until_birthday)) {
+        if ($days_until_birthday == 0) {
             $discountSum += 5;
         }
     }
