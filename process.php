@@ -1,81 +1,43 @@
 <?php
 
-include 'functions_db.php';
+    include 'functions_db.php';
 
-/*$users = [];
+    $users = getUsersList(); //заданные пары логин/пароль: admin/superuser, Mary/guess
+    $login = $_POST['login'] ?? null;
+    $password = sha1($_POST['password']) ?? null;
 
+    session_start();
 
-$lines = file('data.txt');
+    $_SESSION['failed_reg'] = false; //проверяем авторизацию, а не регистрацию, чье состояние записано в failed_reg
 
-foreach ($lines as $line_num => $line) {
-    
-    if (trim($line)) {
-    $temp = explode(" ", $line);
-    $users[$line_num] = ['login' => $temp[0], 'password' => trim($temp[1])];
-  
-    }
-}*/
+    if (null != $login || null != $_POST['password']) {
 
-$users = getUsersList(); 
-
-
-
-
-$login = $_POST['login'] ?? null;
-$password = sha1($_POST['password']) ?? null;
-
-
-
-
-session_start(); 
-$_SESSION['failed_reg'] = false;
-
-if (null != $login || null != $_POST['password']) {
-
-   /* foreach ($users as $user_num => $user) {
-    // Если пароль из базы совпадает с паролем из формы
-    if  (($login === $users[$user_num]['login']) && ($password === $users[$user_num]['password'])) {
-    
-         // Стартуем сессию:
-       
+        if (checkPassword($login, $password)) {
+            $_SESSION['auth'] = true;
+            $_SESSION['failed'] = false;  
         
-   	 // Пишем в сессию информацию о том, что мы авторизовались:
-        $_SESSION['auth'] = true;
-        $_SESSION['failed'] = false;  
-        
-        // Пишем в сессию логин и id пользователя
-        $_SESSION['id'] = $user_num; 
-        $_SESSION['login'] = $login; 
-        header("Location: index.php");
-        exit;
+            //Пишем в сессию логин и id пользователя
+            $_SESSION['id'] = $user_num; 
+            $_SESSION['login'] = $login; 
+            header("Location: index.php");
+            exit;
+        }
 
-    }
-
-} */
-
-    if (checkPassword($login, $password)) {
-        $_SESSION['auth'] = true;
-        $_SESSION['failed'] = false;  
-        
-        // Пишем в сессию логин и id пользователя
-        $_SESSION['id'] = $user_num; 
-        $_SESSION['login'] = $login; 
-        header("Location: index.php");
-        exit;
-    }
-} else {
-    $_SESSION["isNull"] = true;
-    if (!empty($_SESSION["index"])) {
-        header("Location: index.php");
-        exit;  
     } else {
-        header("Location: login.php"); 
+        //перенаправляем на ту страницу, откуда совершена попытка авторизации
+        $_SESSION["isNull"] = true;
+        if (!empty($_SESSION["index"])) {
+            header("Location: index.php");
+            exit;  
+        } else {
+            header("Location: login.php"); 
+        }
+
+        exit;
     }
 
-    exit;
-}
-
-
+    //если пароль не пуст, но авторизация не удалась
+    
     $_SESSION["isNull"] = false;
     $_SESSION["auth"] = false;
     $_SESSION["failed"] = true;
@@ -87,10 +49,4 @@ if (null != $login || null != $_POST['password']) {
         header("Location: login.php"); 
     }
 
-
-
-  
-
-
 ?>
-

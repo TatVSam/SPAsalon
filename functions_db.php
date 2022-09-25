@@ -2,7 +2,7 @@
 
     function getUsersList () {
         
-        $users = [];
+        $users = []; //заданные пары логин/пароль: admin/superuser, Mary/guess
 
         $lines = file('data.txt');
 
@@ -15,9 +15,9 @@
         }
 
         return $users;
-
     }
 
+    
     function existsUser ($login) {
         
         $users = getUsersList();
@@ -39,6 +39,7 @@
     }
 
     function checkPassword($login, $password) {
+        
         $users = getUsersList();
         $checked = false;
         
